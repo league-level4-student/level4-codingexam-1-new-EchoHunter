@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.util.Scanner;
+
 /*
  * Objective: Create a weekly scheduling application.
  * 
@@ -24,8 +26,11 @@ package scheduler;
  *   variables.
  */
 public class Scheduler {
-
+Scanner qAsk = new Scanner(System.in);
     public static void main(String[] args) {
 
+    }
+    private void setTime(Node<T> n) {
+    	
     }
 }
