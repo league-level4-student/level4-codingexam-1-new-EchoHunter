@@ -3,12 +3,12 @@ package scheduler;
 enum DaysOfWeeks {
 	Sunday(), Monday(), Tuesday(), Wednesday(), Thursday(), Friday(), Saturday();
 	
-	private final LinkedList<Node<String>> schedule;
+	private final LinkedList<NameAndTime> schedule;
 	
 	private DaysOfWeeks () {
-		this.schedule = new LinkedList<Node<String>>();
+		this.schedule = new LinkedList<NameAndTime>();
 	}
-	public LinkedList<Node<String>> getLinkedList() {
+	public LinkedList<NameAndTime> getLinkedList() {
 		return schedule;
 	}
 }
