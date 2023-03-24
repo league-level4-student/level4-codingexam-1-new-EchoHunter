@@ -1,6 +1,6 @@
 package scheduler;
 
-public class LinkedList<T> {
+public class LinkedList2<T> {
 
     private Node<T> head;
     private Node<T> tail;
@@ -9,6 +9,7 @@ public class LinkedList<T> {
 
         if (head == null) {
             head = new Node<T>(value);
+           tail = head;
         } else {
 
             Node<T> prev = head;

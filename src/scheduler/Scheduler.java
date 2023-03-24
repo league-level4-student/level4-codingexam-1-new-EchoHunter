@@ -1,8 +1,10 @@
 package scheduler;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
-
+import java.util.LinkedList;
 /*
  * Objective: Create a weekly scheduling application.
  * 
@@ -38,95 +40,91 @@ public class Scheduler {
 			System.out.println("Would you like to close the program? y/n");
 			newResponse = qAsk.next();
 			noClose = newResponse.equals("n") ? true : false;
-			if(noClose) {
+			if (noClose) {
 				addNewEvent();
 				getSched();
 			}
 
 		} while (noClose);
 	}
-	
-	
+
 	public static void addNewEvent() {
 		String newResponse = "";
 		Scanner qAsk = new Scanner(System.in);
 		Boolean keepAsking = false;
 		Double time = 1.00;
 		String name = "";
-		Node<NameAndTime> day = null;
+		List<NameAndTime> day = null;
+		Node<NameAndTime> current;
 		Node<NameAndTime> previous;
 		Boolean contCheck = false;
-		
-			System.out.println("Would you like to add to your schedule? y/n");
-			keepAsking = qAsk.next().equals("y") ? true : false;
 
-			if (keepAsking) {
-				System.out.println("enter the day you would like to add to");
-				newResponse = qAsk.next();
-				switch (newResponse) {
-				case "Monday":
-					day = DaysOfWeeks.Monday.getLinkedList().getHead();
-					break;
-				case "Tuesday":
-					day = DaysOfWeeks.Tuesday.getLinkedList().getHead();
-					break;
-				case "Wednesday":
-					day = DaysOfWeeks.Wednesday.getLinkedList().getHead();
-					break;
-				case "Thursday":
-					day = DaysOfWeeks.Thursday.getLinkedList().getHead();
-					break;
-				case "Friday":
-					day = DaysOfWeeks.Friday.getLinkedList().getHead();
-					break;
-				case "Saturday":
-					day = DaysOfWeeks.Saturday.getLinkedList().getHead();
-					break;
-				case "Sunday":
-					day = DaysOfWeeks.Sunday.getLinkedList().getHead();
-					break;
-				}
-				System.out.println("The time of the event? Format it as 16.30 for 4:30pm");
-				time = Double.parseDouble(qAsk.next());
-				System.out.println("The name of the event?");
-				name = qAsk.next();
-				
-				if(day==null) {
-					day = new Node<NameAndTime>(new NameAndTime(name, time));
-					day.getValue().getTime()
-				}else {
-					while(!checkIf(day, time)) {
-						previous = day.getPrev().getValue().equals(null) ? null : day.getPrev();
-						if((previous == null)&&(day.getValue().getTime()<time)) {
-							previous.setValue(new NameAndTime(name,time));
-						}else  {
-							previous = day;
-							day = day.getNext();
-						}
-					}
-		
-				}
+		System.out.println("Would you like to add to your schedule? y/n");
+		keepAsking = qAsk.next().equals("y") ? true : false;
+
+		if (keepAsking) {
+			System.out.println("enter the day you would like to add to");
+			newResponse = qAsk.next();
+			switch (newResponse) {
+			case "Monday":
+				day = DaysOfWeeks.Monday.getLinkedList();
+				break;
+			case "Tuesday":
+				day = DaysOfWeeks.Tuesday.getLinkedList();
+				break;
+			case "Wednesday":
+				day = DaysOfWeeks.Wednesday.getLinkedList();
+				break;
+			case "Thursday":
+				day = DaysOfWeeks.Thursday.getLinkedList();
+				break;
+			case "Friday":
+				day = DaysOfWeeks.Friday.getLinkedList();
+				break;
+			case "Saturday":
+				day = DaysOfWeeks.Saturday.getLinkedList();
+				break;
+			case "Sunday":
+				day = DaysOfWeeks.Sunday.getLinkedList();
+				break;
 			}
-		
+			current = day.getHead();
+			System.out.println("The time of the event? Format it as 16.30 for 4:30pm");
+			time = Double.parseDouble(qAsk.next());
+			System.out.println("The name of the event?");
+			name = qAsk.next();
+
+			if (current == null) {
+				day.add(new NameAndTime(name, time));
+			} else {
+				if ((day.getTail() != null) && (day.getTail().getValue().getTime() < time)) {
+					day.add(new NameAndTime(name, time));
+				}
+				if (!checkIf(day, time)) {
+					day.add(new NameAndTime(name, time));
+
+				}
+			Collections.sort(day);
+			}
+		}
+
 	}
-	private static boolean checkIf(Node<NameAndTime> list, Double toCheck) {
-	Node<NameAndTime> current = list;
-	Node<NameAndTime> next = current.getNext();
-	boolean cont = true;
-		
-		do {
-			if(current.getValue().getTime()>toCheck) {
-				cont = false;
-			}else if(current.getValue().getTime()<toCheck) {
-				current = next;
-				next = current.getNext();
-			}else {
+
+	private static boolean checkIf(LinkedList<NameAndTime> list, Double toCheck) {
+		Node<NameAndTime> current = list.getHead();
+
+		while (current != null) {
+			if (current.getValue().getTime() == toCheck) {
 				return true;
 			}
-		}while(cont);
-		
-	return false;	
+			current = current.getNext() == null ? null : current.getNext();
+		}
+
+		return false;
 	}
+
+
+
 	public static void getSched() {
 		Scanner qAsk = new Scanner(System.in);
 		String newResponse = "";
@@ -134,62 +132,62 @@ public class Scheduler {
 		System.out.println("Would you like to see your schedule?");
 		keepAsking = qAsk.next().equals("y") ? true : false;
 		if (keepAsking) {
-		System.out.println("enter the day you would like to see");
-		newResponse = qAsk.next();
-		Node<NameAndTime> current;
-		switch (newResponse) {
-		case "Monday":
-			current = DaysOfWeeks.Monday.getLinkedList().getHead();
-			for(int i = 0; i< DaysOfWeeks.Monday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
+			System.out.println("enter the day you would like to see");
+			newResponse = qAsk.next();
+			Node<NameAndTime> current;
+			switch (newResponse) {
+			case "Monday":
+				current = DaysOfWeeks.Monday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Monday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Tuesday":
+				current = DaysOfWeeks.Tuesday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Tuesday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Wednesday":
+				current = DaysOfWeeks.Wednesday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Wednesday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Thursday":
+				current = DaysOfWeeks.Thursday.getLinkedList().getHead();
+				System.out.println(DaysOfWeeks.Thursday.getLinkedList().size());
+				for (int i = 0; i < DaysOfWeeks.Thursday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Friday":
+				current = DaysOfWeeks.Friday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Friday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Saturday":
+				current = DaysOfWeeks.Saturday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Saturday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
+			case "Sunday":
+				current = DaysOfWeeks.Sunday.getLinkedList().getHead();
+				for (int i = 0; i < DaysOfWeeks.Sunday.getLinkedList().size(); i++) {
+					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
+					current = current.getNext();
+				}
+				break;
 			}
-			break;
-		case "Tuesday":
-			current = DaysOfWeeks.Tuesday.getLinkedList().getHead();
-			for(int i = 0; i< DaysOfWeeks.Tuesday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-		case "Wednesday":
-			current = DaysOfWeeks.Wednesday.getLinkedList().getHead();
-			for(int i = 0; i< DaysOfWeeks.Wednesday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-		case "Thursday":
-			current = DaysOfWeeks.Thursday.getLinkedList().getHead();
-			System.out.println(DaysOfWeeks.Thursday.getLinkedList().size());
-			for(int i = 0; i< DaysOfWeeks.Thursday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-		case "Friday":
-			current = DaysOfWeeks.Friday.getLinkedList().getHead();
-			for(int i = 0; i< DaysOfWeeks.Friday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-		case "Saturday":
-			current = DaysOfWeeks.Saturday.getLinkedList().getHead();
-			for(int i = 0; i< DaysOfWeeks.Saturday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-		case "Sunday":
-			current = DaysOfWeeks.Sunday.getLinkedList().getHead();
-			for(int i = 0; i < DaysOfWeeks.Sunday.getLinkedList().size();i++) {
-				System.out.println( current.getValue().getDesc() + " " + current.getValue().getTime());
-				current = current.getNext();
-			}
-			break;
-	}
 		}
 	}
-	
+
 }

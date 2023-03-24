@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.util.LinkedList;
+
 enum DaysOfWeeks {
 	Sunday(), Monday(), Tuesday(), Wednesday(), Thursday(), Friday(), Saturday();
 	
