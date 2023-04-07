@@ -89,6 +89,7 @@ public class Scheduler {
 				if((current.getValue().getDesc().equals(newResponse))&&(current.getNext()!=null)) {
 					current.getPrev().setNext(current.getNext());
 					current.getNext().setPrev(current.getPrev());
+					current.setValue(null);
 					break;
 				}
 				else {
