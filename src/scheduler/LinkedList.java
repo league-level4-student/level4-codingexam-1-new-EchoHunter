@@ -1,6 +1,6 @@
 package scheduler;
 
-public class LinkedList2<T> {
+public class LinkedList<T> {
 
     private Node<T> head;
     private Node<T> tail;

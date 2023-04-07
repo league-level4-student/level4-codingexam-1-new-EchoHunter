@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.LinkedList;
 /*
  * Objective: Create a weekly scheduling application.
  * 
@@ -42,10 +41,61 @@ public class Scheduler {
 			noClose = newResponse.equals("n") ? true : false;
 			if (noClose) {
 				addNewEvent();
+				removeEvent();
 				getSched();
 			}
 
 		} while (noClose);
+	}
+
+	private static void removeEvent() {
+		Scanner qAsk = new Scanner(System.in);
+		boolean keepAsking = false;
+		LinkedList<NameAndTime> day = null;
+		Node<NameAndTime> current = null;
+		System.out.println("Would you like to remove from your schedule? y/n");
+		keepAsking = qAsk.next().equals("y") ? true : false;
+
+		if (keepAsking) {
+			System.out.println("enter the day you would like to remove from to");
+			String newResponse = qAsk.next();
+			switch (newResponse) {
+			case "Monday":
+				day = DaysOfWeeks.Monday.getLinkedList();
+				break;
+			case "Tuesday":
+				day = DaysOfWeeks.Tuesday.getLinkedList();
+				break;
+			case "Wednesday":
+				day = DaysOfWeeks.Wednesday.getLinkedList();
+				break;
+			case "Thursday":
+				day = DaysOfWeeks.Thursday.getLinkedList();
+				break;
+			case "Friday":
+				day = DaysOfWeeks.Friday.getLinkedList();
+				break;
+			case "Saturday":
+				day = DaysOfWeeks.Saturday.getLinkedList();
+				break;
+			case "Sunday":
+				day = DaysOfWeeks.Sunday.getLinkedList();
+				break;
+			}
+			current = day.getHead();
+			System.out.println("Which event would you like to remove?");
+			newResponse = qAsk.next();
+			for (int i = 0; i < day.size(); i++) {
+				if((current.getValue().getDesc().equals(newResponse))&&(current.getNext()!=null)) {
+					current.getPrev().setNext(current.getNext());
+					current.getNext().setPrev(current.getPrev());
+					break;
+				}
+				else {
+					current = current.getNext();
+				}
+			}
+		}
 	}
 
 	public static void addNewEvent() {
@@ -54,7 +104,7 @@ public class Scheduler {
 		Boolean keepAsking = false;
 		Double time = 1.00;
 		String name = "";
-		List<NameAndTime> day = null;
+		LinkedList<NameAndTime> day = null;
 		Node<NameAndTime> current;
 		Node<NameAndTime> previous;
 		Boolean contCheck = false;
@@ -104,8 +154,9 @@ public class Scheduler {
 					day.add(new NameAndTime(name, time));
 
 				}
-			Collections.sort(day);
+			
 			}
+			sort(day);
 		}
 
 	}
@@ -187,6 +238,23 @@ public class Scheduler {
 				}
 				break;
 			}
+		}
+	}
+	private static void sort(LinkedList<NameAndTime> list) {
+		for (int i = 0; i < list.size(); i++) {
+			Node<NameAndTime> current = list.getHead();
+			Node<NameAndTime> next = current.getNext();
+			for (int j = 0; j < list.size(); j++) {
+				try {
+				if((next.getValue().getTime()<current.getValue().getTime())) {
+					Node<NameAndTime> placeholder = new Node<NameAndTime>(null);
+					placeholder.setValue(next.getValue());
+					next.setValue(current.getValue());
+					current.setValue(placeholder.getValue());
+				}
+				}catch(NullPointerException e) {
+				}
+			}			
 		}
 	}
 
