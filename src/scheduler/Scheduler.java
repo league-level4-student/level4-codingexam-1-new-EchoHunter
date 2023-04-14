@@ -86,10 +86,12 @@ public class Scheduler {
 			System.out.println("Which event would you like to remove?");
 			newResponse = qAsk.next();
 			for (int i = 0; i < day.size(); i++) {
-				if((current.getValue().getDesc().equals(newResponse))&&(current.getNext()!=null)) {
+				if((current.getValue().getDesc().equals(newResponse))) {
+					if(current.getNext() != null) {
 					current.getPrev().setNext(current.getNext());
 					current.getNext().setPrev(current.getPrev());
-					current.setValue(null);
+					}
+					day.remove(i);
 					break;
 				}
 				else {
@@ -189,53 +191,67 @@ public class Scheduler {
 			Node<NameAndTime> current;
 			switch (newResponse) {
 			case "Monday":
+				if(DaysOfWeeks.Monday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Monday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Monday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Tuesday":
+				if(DaysOfWeeks.Tuesday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Tuesday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Tuesday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Wednesday":
+				if(DaysOfWeeks.Wednesday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Wednesday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Wednesday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Thursday":
+				if(DaysOfWeeks.Thursday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Thursday.getLinkedList().getHead();
 				System.out.println(DaysOfWeeks.Thursday.getLinkedList().size());
 				for (int i = 0; i < DaysOfWeeks.Thursday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Friday":
+				if(DaysOfWeeks.Friday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Friday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Friday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Saturday":
+				if(DaysOfWeeks.Saturday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Saturday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Saturday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
 				}
+				}
 				break;
 			case "Sunday":
+				if(DaysOfWeeks.Sunday.getLinkedList().getHead() != null) {
 				current = DaysOfWeeks.Sunday.getLinkedList().getHead();
 				for (int i = 0; i < DaysOfWeeks.Sunday.getLinkedList().size(); i++) {
 					System.out.println(current.getValue().getDesc() + " " + current.getValue().getTime());
 					current = current.getNext();
+				}
 				}
 				break;
 			}
